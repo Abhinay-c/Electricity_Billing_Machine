@@ -146,7 +146,11 @@ module ebm(
                 $display("No of consumed this month: %d", unitsToday-units_db[meterIndex]);
             end
                 
-            
+            //Bill Amount
+            `billAmount:
+            begin
+                $display("Total amount to be paid: ");
+            end
         endcase
     end
 endmodule
