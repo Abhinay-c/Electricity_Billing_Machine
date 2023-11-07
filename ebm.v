@@ -151,12 +151,12 @@ module ebm(
         begin
             currState = `waiting;
             $display("Exit");
-            #20000;
+            #50;
         end
         
         if(currState == `menu)  
         begin
-            if((menuOption >= 0) & (menuOption < 4))
+            if((menuOption >= 2) & (menuOption <= 5))
                 currState = menuOption;
         end        
         //switch case for the menu options  
@@ -171,7 +171,7 @@ module ebm(
                 end
                 else
                 begin
-                    $display("Meter number was not found");
+//                    $display("Meter number was not found");
                     currState = `waiting;
                 end
             end
@@ -206,6 +206,8 @@ module ebm(
                 $display("Total amount to be paid: %d", amount);
                 currState = `menu;
             end
+            
+            
             `tariffStructure:   
             begin
                 $display("Tariff amount to be paid for units below 100: Rs.0");
@@ -214,6 +216,8 @@ module ebm(
                 $display("Tariff amount to be paid for units above 300: Rs.6");
                 currState = `menu;
             end
+            
+            
             `payment:
             begin
                 units_db[meterIndex] = unitsToday;
