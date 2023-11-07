@@ -1,0 +1,85 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 06.11.2023 19:51:40
+// Design Name: 
+// Module Name: ebmTestBench
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+`define true            1'b1
+`define false           1'b0
+`define find            2'b00
+`define waiting         3'b000  
+`define menu            3'b001
+`define consumedUnits   3'b010
+`define payment         3'b011
+`define billAmount      3'b100
+`define tariffStructure 3'b101
+
+module ebmTestBench();
+    reg clk;
+    reg exit;
+    reg [11:0]meterNumber;
+    reg [12:0]unitsToday;
+    reg [2:0]menuOption;
+    reg [4:0]Date;
+    reg [3:0]Month;
+    reg [12:0]Year;
+    wire [15:0]amount;
+    
+    ebm EBM1(clk, exit, meterNumber, unitsToday, menuOption, Date, Month, Year, amount);
+    
+    initial clk = 1'b0;
+    initial begin
+    
+        //incorrect meter number
+        meterNumber = 12'd900;  
+        
+           
+         
+        #30
+        //Correct meter number and showing units consumed
+        meterNumber = 12'd1003; 
+        unitsToday = 13'd600;
+        Date = 5'd6;
+        Month = 4'd4;
+        Year = 13'd2023;  
+        
+        //tariffStrucutre
+        #30
+        menuOption = `tariffStructure;
+        
+        #30
+        menuOption = `consumedUnits;   
+        
+        
+        
+        
+        //Know bill amount
+        #30
+        menuOption = `billAmount;
+        
+        //Payment
+        #30
+        menuOption = `payment;
+                
+        //exit the system
+        #30
+        exit = 1;
+        #30
+        exit = 0;
+    end
+endmodule
